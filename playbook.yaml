@@ -1,0 +1,5 @@
+- name: Deploy PostgreSQL HA to Kubernetes
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - postgresql_ha
