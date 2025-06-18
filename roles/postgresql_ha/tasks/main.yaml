@@ -18,5 +18,4 @@
 
 - name: Print pod names
   debug:
-    msg: "{{ item.metadata.name }}"
-  loop: "{{ pod_info.resources }}"
+    msg: "{{ pod_info.resources | map(attribute='metadata.name') | list }}"
