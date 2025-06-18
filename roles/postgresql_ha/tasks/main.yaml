@@ -9,6 +9,11 @@
     chart_version: "16.0.14"
     state: present
 
+- name: Debug PostgreSQL secret full content
+  debug:
+    var: pg_secret
+
+
 - name: Get current Pods in postgres namespace
   kubernetes.core.k8s_info:
     api_version: v1
