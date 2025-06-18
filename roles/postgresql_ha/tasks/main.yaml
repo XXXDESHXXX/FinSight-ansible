@@ -30,10 +30,6 @@
     kubeconfig: "{{ kubeconfig }}"
   register: pg_secret
 
-- name: Debug PostgreSQL secret full content
-  debug:
-    var: pg_secret
-
 - name: Decode and print PostgreSQL password
   debug:
     msg: "PostgreSQL password: {{ (pg_secret.resources[0].data['password']) | b64decode }}"
