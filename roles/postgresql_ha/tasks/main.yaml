@@ -4,6 +4,19 @@
     chart_ref: bitnami/postgresql-ha
     release_namespace: postgres
     create_namespace: true
-    values: "{{ lookup('template', 'values.yaml.j2') }}"
+    values: "{{ lookup('template', 'values.yaml.j2') | from_yaml }}"
     kubeconfig: "{{ kubeconfig }}"
     state: present
+
+- name: Get current Pods in postgres namespace
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: postgres
+    kubeconfig: "{{ kubeconfig }}"
+  register: pod_info
+
+- name: Print pod names
+  debug:
+    msg: "{{ item.metadata.name }}"
+  loop: "{{ pod_info.resources }}"
