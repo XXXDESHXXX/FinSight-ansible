@@ -20,3 +20,17 @@
 - name: Print pod names
   debug:
     msg: "{{ pod_info.resources | map(attribute='metadata.name') | list }}"
+
+- name: Get PostgreSQL credentials secret
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    namespace: postgres
+    name: postgresql-ha-postgresql
+    kubeconfig: "{{ kubeconfig }}"
+  register: pg_secret
+
+- name: Decode and print PostgreSQL password
+  debug:
+    msg: "PostgreSQL password: {{ (pg_secret.resources[0].data.postgresql-password) | b64decode }}"
+
