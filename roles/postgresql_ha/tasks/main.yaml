@@ -36,5 +36,9 @@
 
 - name: Decode and print PostgreSQL password
   debug:
-    msg: "PostgreSQL password: {{ (pg_secret.resources[0].data.postgresql-password) | b64decode }}"
+    msg: "PostgreSQL password: {{ (pg_secret.resources[0].data['password']) | b64decode }}"
+
+- name: Decode and print repmgr password
+  debug:
+    msg: "Repmgr password: {{ (pg_secret.resources[0].data['repmgr-password']) | b64decode }}"
 
