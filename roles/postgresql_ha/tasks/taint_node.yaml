@@ -18,12 +18,13 @@
     api_version: v1
     name: "{{ kafka_only_node }}"
     definition:
+      metadata:
+        name: "{{ kafka_only_node }}"
       spec:
         taints:
-          - effect: NoSchedule
-            key: db
+          - key: db
             value: not-postgres
-  merge_type:
-    - strategic-merge
-    - merge
+            effect: NoSchedule
+    apply: yes
   when: kafka_only_node is defined
+
