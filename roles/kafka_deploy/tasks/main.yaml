@@ -1,19 +1,13 @@
 ---
-- name: Deploy Kafka using Helm chart
-  kubernetes.core.helm:
+- name: Deploy Kafka via Helm with templated values
+  community.kubernetes.helm:
     name: kafka
     chart_ref: bitnami/kafka
-    release_namespace: stateful-services
+    release_namespace: kafka
     create_namespace: true
-    values:
-      replicaCount: 3
-      persistence:
-        enabled: true
-        size: 20Gi
-      nodeSelector:
-        cloud.google.com/gke-nodepool: kafka-pool
+    values: "{{ lookup('template', 'values.yaml.j2') | from_yaml }}"
     kubeconfig: "{{ kubeconfig }}"
-    chart_version: "32.2.16"
+    chart_version: "32.2.16"  # актуальная версия на июнь 2025
     state: present
 
 - name: Wait for Kafka pods to be ready
