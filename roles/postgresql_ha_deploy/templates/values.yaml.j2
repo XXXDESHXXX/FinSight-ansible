@@ -2,6 +2,10 @@ postgresql:
   replication:
     enabled: true
   replicaCount: 2
+  tolerations:
+    - key: db
+      operator: "Exists"
+      effect: NoSchedule
 
   nodeSelector:
     cloud.google.com/gke-nodepool: db-pool
@@ -12,8 +16,37 @@ postgresql:
 
   resources:
     requests:
+      cpu: 150m
+      memory: 256Mi
+    limits:
+      cpu: 400m
+      memory: 512Mi
+
+pgpool:
+  replicaCount: 1
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: db-pool
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+patroni:
+  enableBootstrap: true
+  useConfigMap: false
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: db-pool
+
+  resources:
+    requests:
       cpu: 100m
       memory: 192Mi
     limits:
-      cpu: 250m
+      cpu: 300m
       memory: 384Mi
