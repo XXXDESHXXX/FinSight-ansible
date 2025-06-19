@@ -13,7 +13,7 @@
       nodeSelector:
         cloud.google.com/gke-nodepool: kafka-pool
     kubeconfig: "{{ kubeconfig }}"
-    chart_version: "16.8.0"
+    chart_version: "32.2.16"
     state: present
 
 - name: Wait for Kafka pods to be ready
