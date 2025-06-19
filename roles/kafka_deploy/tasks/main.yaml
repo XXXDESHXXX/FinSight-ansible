@@ -19,7 +19,7 @@
     kubeconfig: "{{ kubeconfig }}"
   register: kafka_pods
   until: kafka_pods.resources | length > 0 and (kafka_pods.resources | map(attribute='status.phase') | select('equalto', 'Running') | list | length) == kafka_pods.resources | length
-  retries: 12
+  retries: 6
   delay: 10
 
 - name: Show Kafka pod names and status
