@@ -1,16 +1,13 @@
 controller:
   replicaCount: 3
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-    limits:
-      cpu: "300m"
-      memory: "256Mi"
-  tolerations:
-    - key: "db"
-      operator: "Equal"
-      value: "not-postgres"
-      effect: "NoSchedule"
+
   nodeSelector:
     cloud.google.com/gke-nodepool: db-pool
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi

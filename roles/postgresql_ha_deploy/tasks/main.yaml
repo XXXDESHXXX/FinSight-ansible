@@ -1,8 +1,5 @@
 - name: Deploy PostgreSQL HA
   import_tasks: deploy.yaml
 
-- name: Add taint to Kafka-only node
-  import_tasks: taint_node.yaml
-
 - name: Post-deploy tasks
   import_tasks: post_deploy.yaml
