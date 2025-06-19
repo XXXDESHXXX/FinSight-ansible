@@ -4,4 +4,4 @@
     ansible_python_interpreter: /home/kirya/FinSight-ansible/venv/bin/python
   gather_facts: false
   roles:
-    - postgresql_ha
+    - postgresql_ha_deploy

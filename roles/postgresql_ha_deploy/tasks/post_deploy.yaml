@@ -2,7 +2,7 @@
   kubernetes.core.k8s_info:
     api_version: v1
     kind: Pod
-    namespace: postgres
+    namespace: stateful-services
     kubeconfig: "{{ kubeconfig }}"
   register: pod_info
 
@@ -14,7 +14,7 @@
   kubernetes.core.k8s_info:
     api_version: v1
     kind: Secret
-    namespace: postgres
+    namespace: stateful-services
     name: postgresql-ha-postgresql
     kubeconfig: "{{ kubeconfig }}"
   register: pg_secret

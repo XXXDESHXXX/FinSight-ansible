@@ -1,0 +1,33 @@
+---
+- name: Deploy Kafka using Helm chart
+  kubernetes.core.helm:
+    name: kafka
+    chart_ref: bitnami/kafka
+    release_namespace: stateful-services
+    create_namespace: true
+    values:
+      replicaCount: 3
+      persistence:
+        enabled: true
+        size: 20Gi
+      nodeSelector:
+        cloud.google.com/gke-nodepool: kafka-pool
+    kubeconfig: "{{ kubeconfig }}"
+    chart_version: "16.8.0"
+    state: present
+
+- name: Wait for Kafka pods to be ready
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: stateful-services
+    label_selectors:
+      - app.kubernetes.io/name=kafka
+    kubeconfig: "{{ kubeconfig }}"
+  register: kafka_pods
+  until: kafka_pods.resources | length > 0 and (kafka_pods.resources | map(attribute='status.phase') | select('equalto', 'Running') | list | length) == kafka_pods.resources | length
+  retries: 12
+  delay: 10
+
+- name: Show Kafka pod names and status
+  debug:
+    msg: "{{ kafka_pods.resources | map(attribute='metadata.name') | list }}"
