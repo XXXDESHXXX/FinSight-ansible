@@ -7,8 +7,6 @@ postgresql:
       operator: "Exists"
       effect: NoSchedule
 
-
-
   nodeSelector:
     cloud.google.com/gke-nodepool: db-pool
 
@@ -19,10 +17,10 @@ postgresql:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 192Mi
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 250m
+      memory: 384Mi
 
 pgpool:
   replicaCount: 1
@@ -32,11 +30,11 @@ pgpool:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 50m
+      memory: 96Mi
     limits:
-      cpu: 300m
-      memory: 256Mi
+      cpu: 150m
+      memory: 192Mi
 
 patroni:
   enableBootstrap: true
@@ -47,8 +45,8 @@ patroni:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 75m
+      memory: 128Mi
     limits:
-      cpu: 300m
-      memory: 512Mi
+      cpu: 200m
+      memory: 256Mi
