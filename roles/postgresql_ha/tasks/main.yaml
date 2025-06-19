@@ -37,4 +37,3 @@
 - name: Decode and print repmgr password
   debug:
     msg: "Repmgr password: {{ (pg_secret.resources[0].data['repmgr-password']) | b64decode }}"
-

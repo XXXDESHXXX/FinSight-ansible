@@ -3,6 +3,9 @@ postgresql:
     enabled: true
   replicaCount: 2
 
+  nodeSelector:
+    cloud.google.com/gke-nodepool: db-pool
+
   persistence:
     enabled: true
     size: 4Gi
@@ -17,6 +20,10 @@ postgresql:
 
 pgpool:
   replicaCount: 1
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: db-pool
+
   resources:
     requests:
       cpu: 100m
@@ -28,6 +35,10 @@ pgpool:
 patroni:
   enableBootstrap: true
   useConfigMap: false
+
+  nodeSelector:
+    cloud.google.com/gke-nodepool: db-pool
+
   resources:
     requests:
       cpu: 100m
