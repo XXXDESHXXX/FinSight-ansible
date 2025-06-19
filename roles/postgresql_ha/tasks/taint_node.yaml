@@ -23,7 +23,7 @@
           - effect: NoSchedule
             key: db
             value: not-postgres
-    merge_type:
-      - strategic
-      - merge
+  merge_type:
+    - strategic-merge
+    - merge
   when: kafka_only_node is defined
