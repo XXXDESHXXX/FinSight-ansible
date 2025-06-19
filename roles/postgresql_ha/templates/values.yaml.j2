@@ -2,6 +2,12 @@ postgresql:
   replication:
     enabled: true
   replicaCount: 2
+  tolerations:
+    - key: db
+      operator: "NotEqual"
+      value: "not-postgres"
+      effect: NoSchedule
+
 
   nodeSelector:
     cloud.google.com/gke-nodepool: db-pool
