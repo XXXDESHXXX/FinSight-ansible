@@ -4,9 +4,9 @@ postgresql:
   replicaCount: 2
   tolerations:
     - key: db
-      operator: "NotEqual"
-      value: "not-postgres"
+      operator: "Exists"
       effect: NoSchedule
+
 
 
   nodeSelector:
