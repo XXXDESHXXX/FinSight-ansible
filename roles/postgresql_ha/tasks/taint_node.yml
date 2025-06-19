@@ -1,0 +1,29 @@
+- name: Get all db-pool nodes
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Node
+    kubeconfig: "{{ kubeconfig }}"
+    label_selectors:
+      - cloud.google.com/gke-nodepool=db-pool
+  register: db_nodes
+
+- name: Pick the last created node as Kafka-only node
+  set_fact:
+    kafka_only_node: "{{ db_nodes.resources | sort(attribute='metadata.creationTimestamp') | last | default({}) | dict2items | selectattr('key', 'equalto', 'metadata') | map(attribute='value.name') | list | first }}"
+
+- name: Add taint to Kafka-only node to exclude PostgreSQL
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    kind: Node
+    api_version: v1
+    name: "{{ kafka_only_node }}"
+    definition:
+      spec:
+        taints:
+          - effect: NoSchedule
+            key: db
+            value: not-postgres
+    merge_type:
+      - strategic
+      - merge
+  when: kafka_only_node is defined

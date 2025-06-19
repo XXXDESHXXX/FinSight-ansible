@@ -1,1 +1,1 @@
-kubeconfig: "~/.kube/config"
+kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/config"

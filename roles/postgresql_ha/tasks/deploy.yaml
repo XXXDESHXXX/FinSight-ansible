@@ -1,0 +1,10 @@
+- name: Deploy postgresql-ha Helm chart
+  community.kubernetes.helm:
+    name: postgresql-ha
+    chart_ref: bitnami/postgresql-ha
+    release_namespace: postgres
+    create_namespace: true
+    values: "{{ lookup('template', 'values.yaml.j2') | from_yaml }}"
+    kubeconfig: "{{ kubeconfig }}"
+    chart_version: "16.0.14"
+    state: present

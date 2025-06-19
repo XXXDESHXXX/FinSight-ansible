@@ -1,0 +1,28 @@
+- name: Get current Pods in postgres namespace
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: postgres
+    kubeconfig: "{{ kubeconfig }}"
+  register: pod_info
+
+- name: Print pod names
+  debug:
+    msg: "{{ pod_info.resources | map(attribute='metadata.name') | list }}"
+
+- name: Get PostgreSQL credentials secret
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    namespace: postgres
+    name: postgresql-ha-postgresql
+    kubeconfig: "{{ kubeconfig }}"
+  register: pg_secret
+
+- name: Decode and print PostgreSQL password
+  debug:
+    msg: "PostgreSQL password: {{ (pg_secret.resources[0].data['password']) | b64decode }}"
+
+- name: Decode and print repmgr password
+  debug:
+    msg: "Repmgr password: {{ (pg_secret.resources[0].data['repmgr-password']) | b64decode }}"
